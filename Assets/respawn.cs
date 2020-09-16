@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class respawn : MonoBehaviour {
     public GameObject asteroidPrefab;
-    public float respawnTime = 1.0f;
+    public GameObject outersphere;
+    public float respawnTime = 10.0f;
     private Vector2 screenBounds;
 
     // Use this for initialization
@@ -14,11 +15,13 @@ public class respawn : MonoBehaviour {
     }
     private void spawnEnemy(){
         GameObject a = Instantiate(asteroidPrefab) as GameObject;
-        a.transform.position = new Vector2(screenBounds.x * -1, Random.Range(-screenBounds.y, screenBounds.y));
+        GameObject b = Instantiate(outersphere) as GameObject;
+        a.transform.position = new Vector2(screenBounds.x * -1, Random.Range(-screenBounds.y - 2, screenBounds.y + 2));
+        b.transform.position = a.transform.position;
     }
     IEnumerator asteroidWave(){
         while(true){
-            yield return new WaitForSeconds(respawnTime);
+            yield return new WaitForSeconds(1);
             spawnEnemy();
         }
     }
